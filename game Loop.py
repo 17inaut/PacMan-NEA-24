@@ -36,7 +36,7 @@ def gameLoop():
     flick = False
     validTurns = [False, False, False, False]
     playerScore = 0
-    playerLives = 0
+    playerLives = 2
     startupCounter = 0
     moving = False
     intro = m.Sound('sounds/Game Intro.wav')
@@ -72,32 +72,32 @@ def gameLoop():
     # blinky
     blinky_looks = pygame.transform.scale(pygame.image.load('ghostImages/blinky.png').convert_alpha(), (40, 40))
     blinkyDirection = 1  # where blinky is facing
-    blinkyXcoord = 430 #360
-    blinkyYcoord = 390 #410
+    blinkyXcoord = 430 #430
+    blinkyYcoord = 390 #390
     blinkyInBox = False
     blinkyCaught = False
 
     # inky
     inky_looks = pygame.transform.scale(pygame.image.load('ghostImages/inky.png').convert_alpha(), (40, 40))
     inkyDirection = 3  # where inky is facing
-    inkyXcoord = 430
-    inkyYcoord = 330
+    inkyXcoord = 430 #430
+    inkyYcoord = 330 #330
     inkyInBox = False
     inkyCaught = False
 
     # pinky
     pinky_looks = pygame.transform.scale(pygame.image.load('ghostImages/pinky.png').convert_alpha(), (40, 40))
     pinkyDirection = 3  # where pinky is facing
-    pinkyXcoord = 360
-    pinkyYcoord = 410
+    pinkyXcoord = 360 #360
+    pinkyYcoord = 410 #410
     pinkyInBox = False
     pinkyCaught = False
 
     # clyde
     clyde_looks = pygame.transform.scale(pygame.image.load('ghostImages/clyde.png').convert_alpha(), (40, 40))
     clydeDirection = 2  # where clyde is facing
-    clydeXcoord = 500
-    clydeYcoord = 410
+    clydeXcoord = 500 #500
+    clydeYcoord = 410 #410
     clydeInBox = False
     clydeCaught = False
 
@@ -119,11 +119,9 @@ def gameLoop():
 
         def draw(self):
             if playerLoses == False or playerWins == False:
-                if (not powerup and not self.caught) or (ghostEaten[
-                                                             self.ghostNum] and powerup and not self.caught):  # when there is no powerup and the ghosts are not caught/eaten
+                if (not powerup and not self.caught) or (ghostEaten[self.ghostNum] and powerup and not self.caught):  # when there is no powerup and the ghosts are not caught/eaten
                     screen.blit(self.image, (self.x, self.y))  # display original ghost images
-                elif powerup and not self.caught and not ghostEaten[
-                    self.ghostNum]:  # if there is a powerup but the ghosts are not eaten, display the blue ghost
+                elif powerup and not self.caught and not ghostEaten[self.ghostNum]:  # if there is a powerup but the ghosts are not eaten, display the blue ghost
                     if 420 < powerCount < 450 or 480 < powerCount < 510 or 540 < powerCount < 570:
                         screen.blit(scaredWhite, (self.x, self.y))
                     else:
@@ -131,8 +129,7 @@ def gameLoop():
                 else:
                     screen.blit(scaredEyes, (self.x, self.y))  # if the ghosts are caught display the white ghost
 
-            ghostRect = pygame.rect.Rect((self.centreX - 18, self.centreY - 18), (36,
-                                                                                  36))  # building a rectangle to allow the ghosts to have a hitbox to be hit. The purpose of -18 is the make the hit-box smaller so it looks like pacman is actually hitting the ghosts instead of the air around it.
+            ghostRect = pygame.rect.Rect((self.centreX - 18, self.centreY - 18), (36, 36))  # building a rectangle to allow the ghosts to have a hitbox to be hit. The purpose of -18 is the make the hit-box smaller so it looks like pacman is actually hitting the ghosts instead of the air around it.
             return ghostRect
 
         def collideWallGhosts(self):
@@ -369,7 +366,7 @@ def gameLoop():
                 frightenedY = 900  # y coord for ghost to follow when in frightened mode
             else:
                 frightenedY = 0  # y coord for ghost to follow when in frightened mode
-            caught_Target = (400, 380)
+            caught_Target = (430, 390)
             if powerup: #while the powerup is active
                 if not self.caught: #if they havem't been caught
                     self.target = (frightenedX, frightenedY) #go here
@@ -377,12 +374,13 @@ def gameLoop():
                     self.target = caught_Target #go here
             else:
                 if not self.caught:
-                    if 340 < self.x < 560 and 330 < self.y < 480:
-                        self.target = (430, 330)
+                    if 350 < self.x < 550 and 370 < self.y < 480:
+                        self.target = (430, 300)
                     else:
                         self.target = (pacman_x, pacman_y)
                 else:
                     self.target = caught_Target
+
 
             return self.target
 
@@ -399,6 +397,8 @@ def gameLoop():
             if powerup:
                 if not self.caught:
                     self.target = (frightenedX, frightenedY)
+                elif self.inBox:
+                    self.target = (430, 330)
                 else:
                     self.target = caught_Target
             else:
@@ -1112,7 +1112,7 @@ def gameLoop():
         pygame.display.flip()
 def mainMenu():
     global sound
-    m.music.load('sounds/Main Menu Music.wav')
+    m.music.load('sounds/Main Menu Music.mp3')
     if sound :
         m.music.play()
     while True:
@@ -1152,7 +1152,7 @@ def mainMenu():
         pygame.display.update()
 def options():
     global sound
-    m.music.load('sounds/Options Music.wav')
+    m.music.load('sounds/Options Music.mp3')
     if sound:
         m.music.play()
     while True:
